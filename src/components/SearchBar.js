@@ -4,7 +4,8 @@ import MovieDetail from "./MovieDetail";
 function SearchBar() {
   const [search, setSearch] = useState("");
   const [moviesData, setMoviesData] = useState("");
-  function handleSearch() {
+  function handleSearch(event) {
+    event.preventDefault();
     fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=f38c346d&s=${search}`)
       .then((resp) => resp.json())
       .then((data) => {
@@ -20,8 +21,10 @@ function SearchBar() {
   return (
     <div>
       <h1>Search Movie</h1>
+      <form>
       <input value={search} onChange={(e) => setSearch(e.target.value)} />
       <button onClick={handleSearch}>Search</button>
+      </form>
       {moviesData ? (
         <ul>
           {moviesData.map((movie, index) => (
@@ -36,7 +39,7 @@ function SearchBar() {
           ))}
         </ul>
       ) : moviesData == null ? (
-        <p>Invalid Movie Name. Please try again.</p>
+        <p className="error">Invalid movie name. Please try again.</p>
       ) : (
         ""
       )}
